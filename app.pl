@@ -24,9 +24,10 @@ post '/api/v1/execute' => sub ($c) {
   my $l = $cpu->{state}->{l};
   my $h = $cpu->{state}->{h};
   my $hAddress = $address + 1;
+  my $id = $cpu->{id};
 
   # Write L register to ADDR
-  my $lRes = $ua->post("$writeMemoryApi?address=$address&value=$l");
+  my $lRes = $ua->post("$writeMemoryApi?id=$id&address=$address&value=$l");
   if ($lRes->is_success) {
     print $lRes->decoded_content;
   }
@@ -34,7 +35,7 @@ post '/api/v1/execute' => sub ($c) {
     die $lRes->status_line;
   }
   # Write H register to ADDR + 1
-  my $hRes = $ua->post("$writeMemoryApi?address=$hAddress&value=$h");
+  my $hRes = $ua->post("$writeMemoryApi?id=$id&address=$hAddress&value=$h");
   if ($hRes->is_success) {
     print $hRes->decoded_content;
   }
